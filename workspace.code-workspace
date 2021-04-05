@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"php.suggest.basic": false,
+		"files.associations": {
+			"*.html": "twig"
+		},
+		"emmet.includeLanguages": {
+			"twig": "html"
+		}
+	}
+}

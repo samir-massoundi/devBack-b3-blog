@@ -7,7 +7,7 @@ use Faker\Factory;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
-class CategorieFixtures extends Fixture
+class CategoriesFixtures extends Fixture
 {
 
 
@@ -18,7 +18,7 @@ class CategorieFixtures extends Fixture
         $faker = Factory::create('fr_FR');
         $faker->seed(0);
 
-        $categories = [
+        $category = [
             1=> [
                 'name' => 'Tips Clip Studio'
             ],
@@ -36,14 +36,13 @@ class CategorieFixtures extends Fixture
             ],
         ];
 
-        foreach ($categories as $key => $value) {
-            $categorie = new Categorie();
-            $categorie->setname($value['name']);
-            $manager->persist($categorie);
+        foreach ($category as $key => $value) 
+        {
+            $category = new Categorie();
+            $category->setname($value['name']);
+            $manager->persist($category);
+            $this->addReference('categories_category'.$key, $category);
         }
-        
-      
-        
         $manager->flush();
     }
 }

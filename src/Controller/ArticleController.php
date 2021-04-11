@@ -31,13 +31,15 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{id}", name="article_show", methods={"GET"} )
      */
-    public function show(Article $article, CommentaireRepository $commentaireRepository) : Response
+    public function show(Article $article, CommentaireRepository $commentaireRepository, ArticleRepository $articleRepository) : Response
     {
         $comments = $commentaireRepository->findBy(['article'=> $article, 'state' => '1']);
-        dump($comments);
+        $lastArticles = $articleRepository->findBy([], ['createdAt' => 'desc'], 4);
+        dump($lastArticles);
         return $this->render('/article/show.html.twig', [
             'article' => $article,
             'comments' =>$comments,
+            'lastArticles' => $lastArticles,
         ]);
     }
 }

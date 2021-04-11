@@ -27,4 +27,12 @@ class DefaultController extends AbstractController
             'articles'=> $articles,
             ]);
     }
+
+    /**
+     * @Route("/a_propos", name="a_propos")
+     */
+    public function about()
+    {
+        return $this->render('default/index.html.twig', [      ]);
+    }
 }

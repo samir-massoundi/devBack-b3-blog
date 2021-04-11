@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,6 +18,14 @@ class RegisterFormType extends AbstractType
         $builder
             ->add('email', EmailType::class)
             ->add('password', PasswordType::class)
+            ->add('roles', ChoiceType::class,[
+                'choices' => [
+                    'ROLE_USER' =>'ROLE_USER',
+                    'ROLE_ADMIN' =>'ROLE_ADMIN'
+                ],
+                'expanded' => true,
+                'multiple' => true
+            ])
             ->add('firstName', TextType::class)
             ->add('lastName',  TextType::class)
             ->add('pseudo', TextType::class)

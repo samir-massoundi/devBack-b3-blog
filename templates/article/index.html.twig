@@ -113,7 +113,6 @@
 	</section>
 </article> #}
 
-{% for article in articles %}
         <h1>Booking index</h1>
 
     <table class="table">
@@ -133,8 +132,8 @@
                 <td>{{ article.id }}</td>
                 <td>{{ article.headline }}</td>
                 <td>{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                {# <td>{{ article.Auteur}}</td> #}
-                {# <td>{{ article.categorie }}</td> #}
+                <td>{{ article.auteur.pseudo }}</td>
+                <td>{{ article.categorie.name}}</td>
                 {# <td>
                     <a href="{{ path('booking_show', {'id': booking.id}) }}">show</a>
                     <a href="{{ path('booking_edit', {'id': booking.id}) }}">edit</a>
@@ -147,6 +146,5 @@
         {% endfor %}
         </tbody>
     </table>
-{% endfor %}
 
 {% endblock %}

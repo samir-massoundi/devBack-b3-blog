@@ -30,7 +30,7 @@ class ArticlesFixtures extends Fixture implements DependentFixtureInterface
                 ->setCategorie($category)
                 ->setheadline($faker->realText(20))
                 ->setsubheadline($faker->realText(40))
-                ->setarticleContent($faker->realText(500))
+                ->setarticleContent($faker->realText(2500))
                 ->setcreatedAt($faker->dateTimeInInterval('-10 months','+6 months'))
                 ->setImageArticle($faker->text(20))
                 ;

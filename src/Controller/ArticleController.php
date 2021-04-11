@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
-use app\Entity\Article;
+use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use App\Repository\CommentaireRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,19 @@ class ArticleController extends AbstractController
         return $this->render('article/index.html.twig', [
             'articles'=>$articleRepository->findAll(),
             'users'=>$userRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}", name="article_show", methods={"GET"} )
+     */
+    public function show(Article $article, CommentaireRepository $commentaireRepository) : Response
+    {
+        $comments = $commentaireRepository->findBy(['article'=> $article, 'state' => '1']);
+        dump($comments);
+        return $this->render('/article/show.html.twig', [
+            'article' => $article,
+            'comments' =>$comments,
         ]);
     }
 }

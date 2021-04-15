@@ -17,17 +17,16 @@
 					<a class="nav-link" href="/contact">Contact</a>
 				</li>
 				{% if app.user %}
-					{# <div class="mb-3">
-										            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-										        </div> #}
+                    <li class="nav-item">
+						
+                        <a class="nav-link disabled"> Connecté en tant que {{ app.user.username }}</a>
+					</li>
+
 					<li class="nav-item">
 						<a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
 					</li>
 
-					<li class="nav-item">
-						Connecté en tant que
-						{{ app.user.username }}
-					</li>
+
 				{% else %}
 					<li class="nav-item">
 						<a class="nav-link" href="#">Créer un compte</a>

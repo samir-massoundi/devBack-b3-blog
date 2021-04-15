@@ -29,7 +29,8 @@
                 <br><br>
 				{% for article in articles %}
                     <section class="info-article">
-                        <h4 class="headline">{{article.headline}}</h3>
+                        
+                        <h4 class="headline"> <a href="/article/{{article.id}}">{{article.headline}}</a> </h3>
                         <h5 class="subheadline">{{article.subheadline}}</h4>
                         <span class="author">par {{article.auteur.pseudo}}</span>
                         <span class="date">{{ article.createdAt ? article.createdAt|date('d-m-Y H:i:s') : '' }}</span>

@@ -66,10 +66,16 @@ class Article
      */
     private $categorie;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Shares::class, mappedBy="articles", orphanRemoval=true)
+     */
+    private $shares;
+
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->shares = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -217,6 +223,36 @@ class Article
     public function setCategorie(?Categorie $categorie): self
     {
         $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Shares[]
+     */
+    public function getShares(): Collection
+    {
+        return $this->shares;
+    }
+
+    public function addShare(Shares $share): self
+    {
+        if (!$this->shares->contains($share)) {
+            $this->shares[] = $share;
+            $share->setArticles($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShare(Shares $share): self
+    {
+        if ($this->shares->removeElement($share)) {
+            // set the owning side to null (unless already changed)
+            if ($share->getArticles() === $this) {
+                $share->setArticles(null);
+            }
+        }
 
         return $this;
     }

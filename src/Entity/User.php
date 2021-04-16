@@ -67,11 +67,17 @@ class User implements UserInterface
      */
     private $likes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Shares::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $shares;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->shares = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -275,6 +281,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($like->getUser() === $this) {
                 $like->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Shares[]
+     */
+    public function getShares(): Collection
+    {
+        return $this->shares;
+    }
+
+    public function addShare(Shares $share): self
+    {
+        if (!$this->shares->contains($share)) {
+            $this->shares[] = $share;
+            $share->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShare(Shares $share): self
+    {
+        if ($this->shares->removeElement($share)) {
+            // set the owning side to null (unless already changed)
+            if ($share->getUser() === $this) {
+                $share->setUser(null);
             }
         }
 

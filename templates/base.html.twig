@@ -37,10 +37,12 @@
                         <span class="categorie badge badge-pill badge-primary">{{article.categorie.name}}</span>
                         <p class="content">{{ article.articleContent|slice (0, 150)}}[...]</p>
                     </section>
-                    <section class="reactions">
-                        <button type="button" class="btn btn-outline-primary btn-sm">Like</button>
-                        <button type="button" class="btn btn-outline-primary btn-sm">Share</button>
-                    </section>
+                    {% if app.user %}
+                        <section class="reactions">
+                            <button type="button" class="btn btn-outline-primary btn-sm">Like</button>
+                            <button type="button" class="btn btn-outline-primary btn-sm">Share</button>
+                        </section>
+                    {% endif %}
                     <hr>
                 {% endfor %}
                 {{ knp_pagination_render(articles) }}

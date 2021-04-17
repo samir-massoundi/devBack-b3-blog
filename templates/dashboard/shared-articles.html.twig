@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mes articles partagés
+{% endblock %}
+{% block body %}
+	<h1>Mes articles likés</h1>
+
+
+	<div class="row">
+		<div class="col-sm-12 col-lg-3">
+			{% include 'dashboard/aside.html.twig' %}
+		</div>
+		<div class="col-sm-12 col-lg-9">
+			{% for share in shared %}
+				<div class="card">
+					<img src"" class="card-img-top">
+					<div class="card-body">
+                        <span> <h3 class="card-title"> <a href="/article/{{share.articles.id}}">{{share.articles.headline}}</a></h3>
+                            <span class="categorie badge badge-pill badge-primary">{{share.articles.categorie.name}}</span> 
+                        </span>
+
+						<h4 class="card-subtitle">{{share.articles.auteur.pseudo}}</h3>
+						<p class="card-text">{{ share.articles.articleContent|slice (0, 100)}}[...]</p>
+					</div>
+				</div>
+            {{ knp_pagination_render(shared) }}
+
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

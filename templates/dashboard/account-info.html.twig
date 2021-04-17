@@ -1,4 +1,6 @@
 {% extends 'base.html.twig' %}
+{% block title %}Modifier mes informations
+{% endblock %}
 {% block body %}
 	<h1>Mes informations Personnelles</h1>
 
@@ -7,7 +9,7 @@
 			{% include 'dashboard/aside.html.twig' %}
 		</div>
 		<div class="col-sm-12 col-lg-9">
-            ok
+            {{ include('dashboard/_form.html.twig') }}
         </div>
 	</div>
 {% endblock %}

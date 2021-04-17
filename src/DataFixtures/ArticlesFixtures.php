@@ -19,7 +19,7 @@ class ArticlesFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr_FR');
         $faker->seed(0);
-        
+
         for ($i=0; $i < 20; $i++) { 
             $user = $this->getReference('users_user'.$faker->numberBetween(1,24));
             $category = $this->getReference('categories_category'.$faker->numberBetween(1,4));

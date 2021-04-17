@@ -3,8 +3,6 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
-use App\Entity\User;
-use App\Entity\Article;
 use App\Entity\Shares;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -18,18 +16,18 @@ class SharesFixtures extends Fixture implements DependentFixtureInterface
         // $product = new Product();
         // $manager->persist($product);
         $faker = Factory::create();
-        $faker->seed(0);
+        $faker->seed(2);
 
-        for ($i = 0; $i < 300; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $user = $this->getReference('users_user' . $faker->numberBetween(1, 24));
-            $shared = $this->getReference('articles_article' . $faker->numberBetween(0, 19));
-
-            $like = new Shares();
-            $like
-                // ->setArticle($shared)
-                // ->setUser($user)
+            $article = $this->getReference('articles_article' . $faker->numberBetween(0, 19));
+            
+            $share = new Shares();
+            $share
+                ->setArticles($article)
+                ->setUser($user)
                 ->setSharedAt($faker->dateTimeInInterval('-10 months', '+6 months'));
-            $manager->persist($like);
+            $manager->persist($share);
         }
 
         $manager->flush();

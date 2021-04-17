@@ -59,6 +59,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="user")
+     * 
      */
     private $commentaires;
 
@@ -229,6 +230,7 @@ class User implements UserInterface
 
     /**
      * @return Collection|Commentaire[]
+     *  
      */
     public function getCommentaires(): Collection
     {

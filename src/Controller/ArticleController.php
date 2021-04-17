@@ -35,7 +35,7 @@ class ArticleController extends AbstractController
     {
         $comments = $commentaireRepository->findBy(['article'=> $article, 'state' => '1']);
         $lastArticles = $articleRepository->findBy([], ['createdAt' => 'desc'], 4);
-        dump($lastArticles);
+        // dump($lastArticles);
         return $this->render('/article/show.html.twig', [
             'article' => $article,
             'comments' =>$comments,

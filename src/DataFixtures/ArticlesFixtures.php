@@ -33,6 +33,7 @@ class ArticlesFixtures extends Fixture implements DependentFixtureInterface
                 ->setarticleContent($faker->realText(2500))
                 ->setcreatedAt($faker->dateTimeInInterval('-10 months','+6 months'))
                 ->setImageArticle($faker->text(20))
+                ->setIsVisible($faker->numberBetween(0,1))
                 ;
             $manager->persist($article);
             $this->addReference('articles_article'.$i, $article);

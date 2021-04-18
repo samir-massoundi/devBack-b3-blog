@@ -71,6 +71,11 @@ class Article
      */
     private $shares;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isVisible;
+
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
@@ -253,6 +258,18 @@ class Article
                 $share->setArticles(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsVisible(): ?bool
+    {
+        return $this->isVisible;
+    }
+
+    public function setIsVisible(bool $isVisible): self
+    {
+        $this->isVisible = $isVisible;
 
         return $this;
     }

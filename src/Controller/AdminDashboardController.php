@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentaireRepository;
 use Doctrine\Common\Collections\Criteria;
@@ -62,6 +63,40 @@ class AdminDashboardController extends AbstractController
     }
 
     /**
-     * @Route("/gestion-commentaires", name="commentReview", methods={"GET", "POST"})
+     * @Route("/gestion-commentaire", name="commentReview", methods={"GET", "POST"})
      */
+    public function reviewComments( Request $request,
+                                    CommentaireRepository $commentaireRepository,
+                                    PaginatorInterface $paginator
+                                    ): Response
+    {   
+        $data = $commentaireRepository->findBy([]);
+        
+        $nbCommentsToReview = $commentaireRepository->count(['state'=> '0']);
+        $comments = $paginator->paginate(
+            $data,
+            $request->query->getInt('page',1),
+            10
+        );
+        return $this->render('admin_dashboard/comment-review.html.twig',
+        [
+            'comments' => $comments,
+            'nbCommentsToReview' => $nbCommentsToReview
+        ]);
+    }
+
+
+    /**
+     * @Route("/{id}", name="article_delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, Article $article): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($article);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('booking_index');
+    }
 }

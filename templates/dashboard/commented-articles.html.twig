@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mes articles commentés
+{% endblock %}
+{% block body %}
+        <h1>Mes articles commentés</h1>
+
+
+<div class="row">
+		<div class="col-sm-12 col-lg-3">
+			{% include 'dashboard/aside.html.twig' %}
+		</div>
+    
+		<div class="col-sm-12 col-lg-9">
+            {% for comment in commented %}
+				<div class="card mb-3">
+					<img src"" class="card-img-top">
+					<div class="card-body ">
+                        <span> <h3 class="card-title"> <a href="/article/{{comment.article.id}}">{{comment.article.headline}}</a></h3>
+                            <span class="categorie badge badge-pill badge-primary">{{comment.article.categorie.name}}</span> 
+                        </span>
+
+						<h4 class="card-subtitle">{{comment.article.auteur.pseudo}}</h4>
+						<p class="card-text">{{ comment.article.articleContent|slice (0, 100)}}[...]</p>
+					</div>
+                    <div class="card-body text-right">
+                        <h3 class="card-title">Mon commentaire</h3>
+                        <span>{{comment.content}}
+                    </div>
+				</div>
+            {{ knp_pagination_render(commented) }}
+
+			{% endfor %}
+        </div>
+	</div>
+{% endblock %}

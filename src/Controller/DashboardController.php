@@ -162,15 +162,15 @@ class DashboardController extends AbstractController
             ->getUser()
             ->getCommentaires()
             ->matching($criteria);
-        $shared = $paginator->paginate(
+        $commented = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1),
             10,
         );
-        dump($shared);
+        dump($commented);
 
         return $this->render('dashboard/commented-articles.html.twig',  [
-            'shared' => $shared
+            'commented' => $commented
         ]);
     }
 }

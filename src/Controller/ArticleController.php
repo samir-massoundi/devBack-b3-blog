@@ -38,9 +38,20 @@ class ArticleController extends AbstractController
                         CommentaireRepository $commentaireRepository, 
                         ArticleRepository $articleRepository,
                         Request $request) : Response
-    {
+    {   
+        if($article->getIsVisible() == false)
+        {
+            echo(false);
+            throw $this->createAccessDeniedException('L\'article n\'est pas disponible');
+
+        }
+        if(!$article)
+        {
+            throw $this->createAccessDeniedException('L\'article n\'existe pas');
+        }
+
         $comments = $commentaireRepository->findBy(['article'=> $article, 'state' => '1']);
-        $lastArticles = $articleRepository->findBy([], ['createdAt' => 'desc'], 4);
+        $lastArticles = $articleRepository->findBy(['isVisible'=> 1], ['createdAt' => 'desc'], 4);
         $user = $this->getUser();
 
         //instancie une entité Commentaire

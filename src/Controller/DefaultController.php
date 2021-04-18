@@ -17,7 +17,7 @@ class DefaultController extends AbstractController
      */
     public function index(Request $request, ArticleRepository $articleRepository, PaginatorInterface $paginator): Response
     {
-        $data = $articleRepository->findBy([], ['createdAt' => 'desc']);
+        $data = $articleRepository->findBy(['isVisible'=> 1], ['createdAt' => 'desc']);
         $articles = $paginator->paginate(
             $data,
             $request->query->getInt('page',1),

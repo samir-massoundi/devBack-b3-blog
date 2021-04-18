@@ -25,7 +25,7 @@ class AdminDashboardController extends AbstractController
     public function index(  ArticleRepository $articleRepository,
                             CommentaireRepository $commentaireRepository): Response
     {
-        $lastArticles = $articleRepository->findBy([], ['createdAt' => 'desc'], 5);
+        $lastArticles = $articleRepository->findBy(['isVisible'=> 1], ['createdAt' => 'desc'], 5);
 
         $nbCommentsToReview = $commentaireRepository->count(['state'=> '0']);
 

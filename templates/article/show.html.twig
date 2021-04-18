@@ -1,28 +1,44 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-	<article class="article">
+	<article class="article ">
 		<section class="info-article">
-			<h1 class="titre text-center">
+			<h1 class="titre text-center mt-4">
 				{{ article.headline }}
 			</h1>
 			<h2 class="sstitre">{{ article.subheadline }}</h4>
-			<span class="author">
-				par
-				{{ article.auteur.pseudo }}</span>
-			<span class="date">
-				publié le
-				{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }}
-			</span>
-			<span class="categorie badge badge-pill badge-primary">{{ article.categorie.name}}
-			</span>
+			<section>
+				<span class="author">
+					par
+					{{ article.auteur.pseudo }}</span>
+				<span class="date">
+					publié le
+					{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }}
+				</span>
+				<span class="categorie badge badge-pill badge-primary">{{ article.categorie.name}}
+				</span>
+			</section>
+
 			<br><br>
 			<p class="contenu-article">{{ article.articleContent}}
 			</p>
-			<section class="reactions">
+			<section class="reactions ">
 				<button type="button" class="btn btn-outline-primary">Like</button>
 				<button type="button" class="btn btn-outline-primary">Share</button>
 			</section>
+		</section>
+		<section class="ajout-commentaire mb-2 mt-5">
+			{% if app.user  %}
+				{{ include('article/_formComment.html.twig') }}
+			{% else %}
+				<p>
+					Inscrivez-vous pour pouvoir publier un commentaire</p>
+			{% endif %}
+
+
+		</section>
+
+		<section class="comment-list">
 			{% if comments|length < 2 %}
 				<h4>
 					{{comments|length}}
@@ -32,43 +48,44 @@
 					{{comments|length}}
 					commentaires</h4>
 			{% endif %}
-
 			{% for comment in comments %}
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title">
 							{{comment.user.pseudo}}
 						</h4>
-						<h6 class="card-subtitle mb-2 text-muted">
+						<h6 class="card-subtitle mb-2 ms-2 text-muted">
 							{{comment.date ? comment.date|date('d-m-Y H:i:s') }}</h6>
 						<p class="card-text">{{comment.content}}</p>
 					</div>
 
 				</div>
 			{% endfor %}
-
-			<section class="ajout-commentaire">
-				<div class="form-group">
-					<label for="exampleTextarea">Ajouter un commentaire</label>
-					<textarea class="form-control" id="exampleTextarea" rows="3" style="margin-top: 0px; margin-bottom: 0px; height: 196px;"></textarea>
-					<button type="button" class="btn btn-primary">Valider</button>
-				</div>
-			</section>
-
-			<h3>Articles Recents</h3>
-			<article class="last-articles row mx-auto">
-				{% for lastArticle in lastArticles %}
-					<section class="card bg-light mb-3 col-lg col-md-6 col-sm-12" style="max-width: 20rem;">
-						<div class="card-header">
-							<span class="categorie badge badge-pill badge-primary">{{lastArticle.categorie.name}}</span>
-						</div>
-						<div class="card-body">
-                            <img src="" alt="image article">
-							<h4 class="card-title">{{lastArticle.headline}}</h4>
-						</div>
-					</section>
-				{% endfor %}
-			</article>
 		</section>
+
+
+		{# <section class="ajout-commentaire">
+												<div class="form-group">
+													<label for="exampleTextarea">Ajouter un commentaire</label>
+													<textarea class="form-control" id="exampleTextarea" rows="3" style="margin-top: 0px; margin-bottom: 0px; height: 196px;"></textarea>
+													<button type="button" class="btn btn-primary">Valider</button>
+												</div>
+											</section> #}
+
+		<h3>Articles Recents</h3>
+		<article class="last-articles row mx-auto">
+			{% for lastArticle in lastArticles %}
+				<section class="card bg-light mb-3 col-lg col-md-6 col-sm-12" style="max-width: 20rem;">
+					<div class="card-header">
+						<span class="categorie badge badge-pill badge-primary">{{lastArticle.categorie.name}}</span>
+					</div>
+					<div class="card-body">
+						<img src="" alt="image article">
+						<h4 class="card-title">{{lastArticle.headline}}</h4>
+					</div>
+				</section>
+			{% endfor %}
+		</article>
+
 	</article>
 {% endblock %}

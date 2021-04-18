@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Commentaire;
+use App\Form\CommentaireFormType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentaireRepository;
 use App\Repository\UserRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,15 +32,39 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="article_show", methods={"GET"} )
+     * @Route("/{id}", name="article_show", methods={"GET","POST"} )
      */
-    public function show(Article $article, CommentaireRepository $commentaireRepository, ArticleRepository $articleRepository) : Response
+    public function show(Article $article, 
+                        CommentaireRepository $commentaireRepository, 
+                        ArticleRepository $articleRepository,
+                        Request $request) : Response
     {
         $comments = $commentaireRepository->findBy(['article'=> $article, 'state' => '1']);
         $lastArticles = $articleRepository->findBy([], ['createdAt' => 'desc'], 4);
-        // dump($lastArticles);
+        $user = $this->getUser();
+
+        //instancie une entité Commentaire
+        $newComment = new Commentaire;
+        $form = $this->createForm(CommentaireFormType::class, $newComment);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //Formulaire envoyé et données valides
+            $newComment->setArticle($article);
+            $newComment->setDate(new DateTime());
+            $newComment->setState('En cours de validation');
+            $newComment->setUser($user);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($newComment);
+            $entityManager->flush();
+            return $this->redirectToRoute('article_show', ['id' => $article->getId()]);
+        }
+        
         return $this->render('/article/show.html.twig', [
             'article' => $article,
+            'commentForm' =>$form->createView(),
             'comments' =>$comments,
             'lastArticles' => $lastArticles,
         ]);

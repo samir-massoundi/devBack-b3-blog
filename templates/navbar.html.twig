@@ -8,7 +8,7 @@
 		<div class="collapse navbar-collapse" id="navbarColor01">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">
-					<a class="nav-link" href="#">Accueil</a>
+					<a class="nav-link" href="/">Accueil</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/a_propos">A propos</a>
@@ -17,19 +17,27 @@
 					<a class="nav-link" href="/contact">Contact</a>
 				</li>
 				{% if app.user %}
-                    <li>
-                        <a href="/dashboard" class="nav-link"> Dashboard</a>
-                    </li>
-                    
-                    <li class="nav-item">
-						
-                        <a class="nav-link disabled"> Connecté en tant que {{ app.user.pseudo }}</a>
+					<li>
+						<a href="/dashboard" class="nav-link">
+							Dashboard</a>
+					</li>
+
+					{% if is_granted('ROLE_ADMIN') %}
+						<li class="nav-item">
+							<a class="nav-link" href="/admin/dashboard">
+								Dashboard admin</a>
+						</li>
+					{% endif %}
+					<li class="nav-item">
+
+						<span class="nav-link">
+							Connecté en tant que
+							{{ app.user.pseudo }}</span>
 					</li>
 
 					<li class="nav-item">
 						<a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
 					</li>
-
 
 				{% else %}
 					<li class="nav-item">

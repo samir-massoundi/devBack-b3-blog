@@ -12,71 +12,78 @@
 		</div>
 		<div class="col-sm-12 col-lg-9 ">
 			<h2>Vos 5 derniers articles aimés</h2>
-            {# {{ dump(liked) }} #}
+			{# {{ dump(liked) }} #}
 			<table class="table table-hover">
 				<thead class="">
-                    <tr class="d-flex">
-                    <th class="col-3">Image de l'article</th>
-					<th class="col-6">Titre de de l'article</th>
-					<th class="col-3">Categorie</th>
-                    </tr>
+					<tr class="d-flex">
+						<th class="col-3">Image de l'article</th>
+						<th class="col-6">Titre de l'article</th>
+						<th class="col-3">Categorie</th>
+					</tr>
 				</thead>
 				<tbody>
-                    {% for like in liked %}
-                        <tr class="d-flex">
-						<td class="col-3"><img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-3.jpg" class="img-thumbnail img-fluid" alt="Sheep"></td>
-						<td class="col-6"><a href="/article/{{like.article.id}}">{{like.article.headline}}</a></td>
-						<td class="col-3">{{like.article.categorie.name}}</td>
-					</tr>
-                    {% endfor %}
+					{% for like in liked %}
+						<tr class="d-flex">
+							<td class="col-3"><img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-3.jpg" class="img-thumbnail img-fluid" alt="Sheep"></td>
+							<td class="col-6">
+								<a href="/article/{{like.article.id}}">{{like.article.headline}}</a>
+							</td>
+							<td class="col-3">{{like.article.categorie.name}}</td>
+						</tr>
+					{% endfor %}
 				</tbody>
 			</table>
-            <hr>
+			<hr>
 
 			<h2>Vos 5 derniers articles partagés</h2>
-            {# {{ dump(shared) }} #}
-            <table class="table table-hover">
+			{# {{ dump(shared) }} #}
+			<table class="table table-hover">
 				<thead class="">
-                    <tr class="d-flex">
-                    <th class="col-3">Image de l'article</th>
-					<th class="col-6">Titre de de l'article</th>
-					<th class="col-3">Categorie</th>
-                    </tr>
+					<tr class="d-flex">
+						<th class="col-3">Image de l'article</th>
+						<th class="col-6">Titre de l'article</th>
+						<th class="col-3">Categorie</th>
+					</tr>
 				</thead>
 				<tbody>
 					{% for share in shared %}
-                        <tr class="d-flex">
-						<td class="col-3"><img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-3.jpg" class="img-thumbnail img-fluid" alt="Sheep"></td>
-						<td class="col-6"><a href="/article/{{share.articles.id}}">{{share.articles.headline}}</a></td>
-						<td class="col-3">{{share.articles.categorie.name}}</td>
-                    {% endfor %}
-					</tr>
+						<tr class="d-flex">
+							<td class="col-3"><img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-3.jpg" class="img-thumbnail img-fluid" alt="Sheep"></td>
+							<td class="col-6">
+								<a href="/article/{{share.articles.id}}">{{share.articles.headline}}</a>
+							</td>
+							<td class="col-3">{{share.articles.categorie.name}}</td>
+                        </tr>
+						{% endfor %}
+					
 				</tbody>
 			</table>
 
 			<h2>Vos 5 derniers articles commentés</h2>
-            <table class="table table-hover">
+			<table class="table table-hover">
 				<thead class="">
-                    <tr class="d-flex">
-                    <th class="col-3">Image de l'article</th>
-					<th class="col-4">Titre de de l'article</th>
-					<th class="col-2">Categorie</th>
-					<th class="col-2">date de commentaire</th>
-					<th class="col-1">Etat du commentaire</th>
-                    </tr>
+					<tr class="d-flex">
+						<th class="col-3">Image de l'article</th>
+						<th class="col-4">Titre de de l'article</th>
+						<th class="col-2">Categorie</th>
+						<th class="col-2">date de commentaire</th>
+						<th class="col-1">Etat du commentaire</th>
+					</tr>
 				</thead>
 				<tbody>
-                {# {{ dump(commented) }} #}
-                    {% for comment in commented %}
-                        <tr class="d-flex">
-						<td class="col-3"><img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-3.jpg" class="img-thumbnail img-fluid" alt="Sheep"></td>
-						<td class="col-4"><a href="/article/{{comment.article.id}}">{{comment.article.headline}}</a></td>
-						<td class="col-2">{{comment.article.categorie.name}}</td>
-						<td class="col-2">{{comment.date|date('Y-m-d H:i:s')}}</td>
-						<td class="col-1">{{comment.state}}</td>
-					</tr>
-                    {% endfor %}
-					
+					{# {{ dump(commented) }} #}
+					{% for comment in commented %}
+						<tr class="d-flex">
+							<td class="col-3"><img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-3.jpg" class="img-thumbnail img-fluid" alt="Sheep"></td>
+							<td class="col-4">
+								<a href="/article/{{comment.article.id}}">{{comment.article.headline}}</a>
+							</td>
+							<td class="col-2">{{comment.article.categorie.name}}</td>
+							<td class="col-2">{{comment.date|date('Y-m-d H:i:s')}}</td>
+							<td class="col-1">{{comment.state}}</td>
+						</tr>
+					{% endfor %}
+
 				</tbody>
 			</table>
 

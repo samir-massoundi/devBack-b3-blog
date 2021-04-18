@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon dashboard (Admin)
+{% endblock %}
+
+{% block body %}
+	<h1>Votre Dashboard</h1>
+	<div class="row">
+
+		<div class="col-sm-12 col-lg-3 ">
+			{% include 'admin_dashboard/aside.html.twig' %}
+		</div>
+		<div class="col-sm-12 col-lg-9 ">
+			<h2>Les 5 derniers articles redigés</h2>
+			<table class="table table-hover">
+				<thead class="">
+					<tr class="d-flex">
+						<th class="col">Image de l'article</th>
+						<th class="col">Titre de l'article</th>
+						<th class="col">Categorie</th>
+						<th class="col">Auteur</th>
+						<th class="col">Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for lastArticle in lastArticles %}
+						<tr class="d-flex">
+							<td class="col"><img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-3.jpg" class="img-thumbnail img-fluid" alt="Sheep"></td>
+							<td class="col">
+								<a href="/article/{{lastArticle.id}}">{{lastArticle.headline}}</a>
+							</td>
+							<td class="col">{{lastArticle.categorie.name}}</td>
+							<td class="col">{{lastArticle.auteur.pseudo}}</td>
+							<td class="col">{{lastArticle.createdAt|date('Y-m-d H:i:s')}}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<hr>
+
+
+		</div>
+	</div>
+
+
+{% endblock %}

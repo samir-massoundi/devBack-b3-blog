@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon dashboard
+{% endblock %}
+
+{% block body %}
+	<h1>Votre Dashboard</h1>
+	<div class="row">
+
+		<div class="col-sm-12 col-lg-3 ">
+			{% include 'admin_dashboard/aside.html.twig' %}
+		</div>
+		<div class="col-sm-12 col-lg-9 ">
+			<h2>Vos articles</h2>
+			<table class="table table-hover">
+				<thead class="">
+					<tr class="d-flex">
+						<th class="col">Image de l'article</th>
+						<th class="col">Titre de l'article</th>
+						<th class="col">Categorie</th>
+						<th class="col">Visibilité</th>
+						<th class="col">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					{% for article in myArticles %}
+						<tr class="d-flex">
+							<td class="col">
+								<img src="" alt="">
+							</td>
+							{% if article.isVisible == 1 %}
+                            <td class="col">
+								<a href="/article/{{article.id}}">{{article.headline}}</a>
+							</td>
+                            {% else %}
+                            <td class="col">
+								{{article.headline}}
+							</td>
+                            {% endif %}
+							<td class="col">{{article.categorie.name}}</td>
+							<td class="col">
+                            {% if article.isVisible == 1 %}
+                                <span class="categorie badge badge-pill badge-success">Visible</span>
+                            {% else %}
+                                <span class="categorie badge badge-pill badge-danger">Invisible</span>
+                            {% endif %}
+                            
+                            </td>
+							<td class="col">
+								<a href="#">Modifier</a>
+								<a href="#">Supprimer</a>
+							</td>
+						</tr>
+
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+{% endblock %}

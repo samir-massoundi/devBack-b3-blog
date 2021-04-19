@@ -18,14 +18,14 @@ class RegisterFormType extends AbstractType
         $builder
             ->add('email', EmailType::class)
             ->add('password', PasswordType::class)
-            ->add('roles', ChoiceType::class,[
-                'choices' => [
-                    'ROLE_USER' =>'ROLE_USER',
-                    'ROLE_ADMIN' =>'ROLE_ADMIN'
-                ],
-                'expanded' => true,
-                'multiple' => true
-            ])
+            // ->add('roles', ChoiceType::class,[
+            //     'choices' => [
+            //         'ROLE_USER' =>'ROLE_USER',
+            //         'ROLE_ADMIN' =>'ROLE_ADMIN'
+            //     ],
+            //     'expanded' => true,
+            //     'multiple' => true
+            // ])
             ->add('firstName', TextType::class)
             ->add('lastName',  TextType::class)
             ->add('pseudo', TextType::class)

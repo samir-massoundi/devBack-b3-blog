@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Commentaire;
 use App\Form\ArticleFormType;
+use App\Form\CommentaireStateFormType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentaireRepository;
+use App\Repository\ContactRepository;
 use DateTime;
 use Doctrine\Common\Collections\Criteria;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -69,14 +72,14 @@ class AdminDashboardController extends AbstractController
     }
 
     /**
-     * @Route("/gestion-commentaire", name="commentReview", methods={"GET", "POST"})
+     * @Route("/gestion-commentaire", name="comment-review", methods={"GET", "POST"})
      */
     public function reviewComments(
         Request $request,
         CommentaireRepository $commentaireRepository,
         PaginatorInterface $paginator
     ): Response {
-        $data = $commentaireRepository->findBy([]);
+        $data = $commentaireRepository->findBy(['state' => '0']);
 
         $nbCommentsToReview = $commentaireRepository->count(['state' => '0']);
         $comments = $paginator->paginate(
@@ -126,7 +129,7 @@ class AdminDashboardController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="article_delete", methods={"DELETE"})
+     * @Route("/article/{id}", name="article_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Article $article): Response
     {
@@ -136,6 +139,66 @@ class AdminDashboardController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('booking_index');
+        return $this->redirectToRoute('my-articles');
+    }
+
+    /**
+     * @Route("/comment/{id}", name="comment_delete", methods={"DELETE"})
+     */
+    public function deleteComment(Request $request, Commentaire $commentaire): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $commentaire->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($commentaire);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('comment-review');
+    }
+
+    /**
+     * @Route("/contact-inbox", name="contact", methods={"GET"})
+     */
+    public function contact(
+        Request $request,
+        ContactRepository $contactRepository,
+        CommentaireRepository $commentaireRepository,
+        PaginatorInterface $paginator
+        ): Response
+    {
+        $nbCommentsToReview = $commentaireRepository->count(['state' => '0']);
+
+        $data = $contactRepository->findAll();
+        $contact = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->render('admin_dashboard/contact.html.twig',
+        [   
+            'contact' => $contact,
+            'nbCommentsToReview' => $nbCommentsToReview,
+            'title' => 'Rédiger un nouvel article'
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/edit", name="comment_edit", methods={"GET","POST"})
+     */
+    public function edit(Request $request, Commentaire $commentaire): Response
+    {
+        $form = $this->createForm(CommentaireStateFormType::class, $commentaire);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('comment-review');
+        }
+
+        return $this->render('admin_dashboard/comment_edit.html.twig', [
+            'comment' => $commentaire,
+            'form' => $form->createView(),
+        ]);
     }
 }

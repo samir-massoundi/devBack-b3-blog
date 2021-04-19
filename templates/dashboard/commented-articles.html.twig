@@ -11,6 +11,9 @@
 		</div>
     
 		<div class="col-sm-12 col-lg-9">
+        {% if commented|lenght == 0 %}
+				<h3>Aucun J'aime en vue. C'est à croire que ce blog ne vous plait pas...</h3>
+		{% else %}
             {% for comment in commented %}
 				<div class="card mb-3">
 					<img src"" class="card-img-top">
@@ -29,6 +32,7 @@
 				</div>
 
 			{% endfor %}
+        {% endif %}
             {{ knp_pagination_render(commented) }}
         </div>
 	</div>

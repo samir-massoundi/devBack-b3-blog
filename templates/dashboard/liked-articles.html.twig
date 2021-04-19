@@ -10,6 +10,9 @@
 			{% include 'dashboard/aside.html.twig' %}
 		</div>
 		<div class="col-sm-12 col-lg-9">
+        {% if liked|length == 0 %}
+				<h3>Aucun J'aime en vue. C'est à croire que ce blog ne vous plait pas...</h3>
+		{% else %}
             {% for like in liked %}
 				<div class="card">
 					<img src"" class="card-img-top">
@@ -25,6 +28,8 @@
             {{ knp_pagination_render(liked) }}
 
 			{% endfor %}
+        
         </div>
-	</div>
+        {% endif %}
+</div>
 {% endblock %}

@@ -19,7 +19,6 @@ use Symfony\Component\Mime\Message;
 /** 
  * @Route("admin/dashboard")
  * @IsGranted("ROLE_ADMIN") 
- * 
  */
 class AdminDashboardController extends AbstractController
 {

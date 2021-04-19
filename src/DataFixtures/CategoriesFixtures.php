@@ -20,19 +20,19 @@ class CategoriesFixtures extends Fixture
 
         $category = [
             1=> [
-                'name' => 'Tips Clip Studio'
+                'name' => 'Focus artiste'
             ],
             2=> [
-                'name' => 'Tips Photoshop'
+                'name' => 'Focus album'
             ],
             3=> [
-                'name' => 'Tips Procreate'
+                'name' => 'Actualités'
             ],
             4=> [
-                'name' => 'Illustration'
+                'name' => 'Focus groupe'
             ],
             5=> [
-                'name' => 'Sketch'
+                'name' => 'Brèves'
             ],
         ];
 

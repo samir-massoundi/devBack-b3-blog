@@ -11,8 +11,8 @@
 		</div>
     
 		<div class="col-sm-12 col-lg-9">
-        {% if commented|lenght == 0 %}
-				<h3>Aucun J'aime en vue. C'est à croire que ce blog ne vous plait pas...</h3>
+        {% if commented|length == 0 %}
+				<h3>Aucun commentaire en vue. Explorez le site et n'hesitez pas à ecrire des commentaires...</h3>
 		{% else %}
             {% for comment in commented %}
 				<div class="card mb-3">

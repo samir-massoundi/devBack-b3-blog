@@ -100,16 +100,15 @@ class AdminDashboardController extends AbstractController
      * @Route("/rediger-article", name="article-create", methods={"GET", "POST"})
      */
     public function createArticle(
-        Request $request, 
-        CommentaireRepository $commentaireRepository) : Response
-    {
+        Request $request,
+        CommentaireRepository $commentaireRepository
+    ): Response {
         $nbCommentsToReview = $commentaireRepository->count(['state' => '0']);
 
         $article = new Article();
-        $form = $this->createForm(ArticleFormType::class,$article);
+        $form = $this->createForm(ArticleFormType::class, $article);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $article->setcreatedAt(new DateTime());
             $article->setAuteur($this->getUser());
             $entityManager = $this->getDoctrine()->getManager();
@@ -118,21 +117,24 @@ class AdminDashboardController extends AbstractController
             return $this->redirectToRoute('my-articles', [
                 'message' => 'Votre Article à été ajoutés dans votre liste'
             ]);
-
         }
-        return $this->render('admin_dashboard/article.html.twig',
-        [   
-            'form' => $form->createView(), 
-            'nbCommentsToReview' => $nbCommentsToReview,
-            'title' => 'Rédiger un nouvel article'
-        ]);
+        return $this->render(
+            'admin_dashboard/article.html.twig',
+            [
+                'form' => $form->createView(),
+                'nbCommentsToReview' => $nbCommentsToReview,
+                'title' => 'Rédiger un nouvel article'
+            ]
+        );
     }
 
     /**
      * @Route("/article/{id}", name="article_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Article $article): Response
-    {
+    public function deleteArticle(
+        Request $request,
+        Article $article
+    ): Response {
         if ($this->isCsrfTokenValid('delete' . $article->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($article);
@@ -145,8 +147,10 @@ class AdminDashboardController extends AbstractController
     /**
      * @Route("/comment/{id}", name="comment_delete", methods={"DELETE"})
      */
-    public function deleteComment(Request $request, Commentaire $commentaire): Response
-    {
+    public function deleteComment(
+        Request $request,
+        Commentaire $commentaire
+    ): Response {
         if ($this->isCsrfTokenValid('delete' . $commentaire->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($commentaire);
@@ -164,8 +168,7 @@ class AdminDashboardController extends AbstractController
         ContactRepository $contactRepository,
         CommentaireRepository $commentaireRepository,
         PaginatorInterface $paginator
-        ): Response
-    {
+    ): Response {
         $nbCommentsToReview = $commentaireRepository->count(['state' => '0']);
 
         $data = $contactRepository->findAll();
@@ -175,19 +178,23 @@ class AdminDashboardController extends AbstractController
             10
         );
 
-        return $this->render('admin_dashboard/contact.html.twig',
-        [   
-            'contact' => $contact,
-            'nbCommentsToReview' => $nbCommentsToReview,
-            'title' => 'Rédiger un nouvel article'
-        ]);
+        return $this->render(
+            'admin_dashboard/contact.html.twig',
+            [
+                'contact' => $contact,
+                'nbCommentsToReview' => $nbCommentsToReview,
+                'title' => 'Rédiger un nouvel article'
+            ]
+        );
     }
 
     /**
-     * @Route("/{id}/edit", name="comment_edit", methods={"GET","POST"})
+     * @Route("/comment/{id}/edit", name="comment_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Commentaire $commentaire): Response
-    {
+    public function editComment(
+        Request $request,
+        Commentaire $commentaire
+    ): Response {
         $form = $this->createForm(CommentaireStateFormType::class, $commentaire);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -200,5 +207,33 @@ class AdminDashboardController extends AbstractController
             'comment' => $commentaire,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/article/{id}/edit", name="article_edit", methods={"GET","POST"})
+     */
+    public function editArticle(
+        Request $request,
+        Article $article,
+        CommentaireRepository $commentaireRepository
+    ): Response 
+    {
+        $nbCommentsToReview = $commentaireRepository->count(['state' => '0']);
+        $form = $this->createForm(ArticleFormType::class, $article);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('comment-review');
+        }
+
+        return $this->render(
+            'admin_dashboard/article.html.twig',
+            [
+                'form' => $form->createView(),
+                'nbCommentsToReview' => $nbCommentsToReview,
+                'title' => 'Modifier un nouvel article'
+            ]
+        );
     }
 }

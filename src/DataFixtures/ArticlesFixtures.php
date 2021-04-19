@@ -37,7 +37,24 @@ class ArticlesFixtures extends Fixture implements DependentFixtureInterface
                 ;
             $manager->persist($article);
             $this->addReference('articles_article'.$i, $article);
+        }
 
+        for ($i=0; $i < 5 ; $i++) { 
+            $category = $this->getReference('categories_category'.$faker->numberBetween(1,4));
+            
+            $article = new Article();
+            $article
+                ->setAuteur($this->getReference('firstAdmin'))
+                ->setCategorie($category)
+                ->setheadline($faker->realText(20))
+                ->setsubheadline($faker->realText(40))
+                ->setarticleContent($faker->realText(2500))
+                ->setcreatedAt($faker->dateTimeInInterval('-10 months','+6 months'))
+                ->setImageArticle($faker->text(20))
+                ->setIsVisible($faker->numberBetween(0,1))
+                ;
+            $manager->persist($article);
+            $this->addReference('admin_articles_article'.$i, $article);
         }
         $manager->flush();
     }

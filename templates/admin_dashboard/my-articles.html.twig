@@ -48,8 +48,8 @@
                             
                             </td>
 							<td class="col">
-								<a href="#">Modifier</a>
-								<a href="#">Supprimer</a>
+								<a class="btn btn-primary btn-sm" href="{{ path('article_edit', {'id': article.id}) }}">Modifier</a>
+								{{ include('article/_delete_form.html.twig') }}
 							</td>
 						</tr>
 

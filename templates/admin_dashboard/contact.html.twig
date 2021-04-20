@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon dashboard
+{% endblock %}
+
+{% block body %}
+	<h1>Mon Dashboard</h1>
+	<div class="row">
+
+		<div class="col-sm-12 col-lg-3 ">
+			{% include 'admin_dashboard/aside.html.twig' %}
+		</div>
+		<div class="col-sm-12 col-lg-9 ">
+			<h2>Contacts </h2>
+            {% if contact|length == 0 %}
+            {% else %}
+                <table class="table table-hover">
+                <thead>
+					<th>Auteur du commentaire</th>
+					<th>Adresse mail</th>
+					<th>Telephone</th>
+					<th>Message Contact</th>
+				</thead>
+                <tbody>
+                    {% for message in contact %}
+                        <tr>
+                            <td>{{message.firstname}} {{message.lastname}}</td>
+                            <td>{{message.mailContact}} </td>
+                            <td>{{message.Telephone}}</td>
+                            <td>{{message.messageContact}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {{ knp_pagination_render(contact) }}
+
+            {% endif %}
+            
+		</div> 
+	</div>
+
+
+{% endblock %}
